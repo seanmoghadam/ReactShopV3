@@ -28,8 +28,11 @@ module.exports = {
                                 useBuiltIns: "usage",
                                 corejs: 3,
                             },
-                            "@babel/preset-react"
                         ],
+                        "@babel/preset-react"
+                    ],
+                    plugins: [
+                        "@babel/plugin-proposal-class-properties"
                     ]
                 }
             },

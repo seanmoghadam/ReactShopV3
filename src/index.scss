@@ -1,5 +1,9 @@
-$color: white;
+@import "styles/constants.scss";
+@import "styles/mixins.scss";
+
 
 body {
-  background: $color;
+  font-family: "Roboto", Arial, Helvetica, sans-serif;
+  margin: 0;
+  box-sizing: border-box;
 }

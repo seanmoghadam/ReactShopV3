@@ -4,9 +4,12 @@ const HtmlWebpackPlugin = require("html-webpack-plugin");
 
 module.exports = {
     mode: "development",
-    entry: "./index.js",
+    entry: "./src/index.js",
+    resolve: {
+        extensions: [".js", ".jsx", ".scss", ".css"]
+    },
     output: {
-        path: path.resolve(__dirname, "dist"),
+        path: path.resolve(__dirname, "../dist"),
         filename: "bundle.js",
         publicPath: "/"
     },
@@ -29,12 +32,21 @@ module.exports = {
                         ],
                     ]
                 }
+            },
+            {
+                test: /\.s?css$/,
+                use: [
+                    "style-loader",
+                    "css-loader",
+                    "sass-loader"
+                ]
+
             }
         ]
     },
     plugins: [
         new HtmlWebpackPlugin({
-            template: "./index.template.html",
+            template: "./src/index.template.html",
             publicPath: "/",
             filename: "index.html",
             inject: true

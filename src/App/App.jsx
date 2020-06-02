@@ -1,5 +1,7 @@
 import React from "react";
 import Navigation from "./Components/Navigation/Navigation";
+import {allBooks} from "../api";
+import Loading from "./Components/Loading/Loading";
 
 
 export class App extends React.Component {
@@ -7,15 +9,26 @@ export class App extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            showTitle: true,
-            title: "",
-            posts: []
+            books: [],
+            loading: true
         }
     }
 
     // wird ausgeführt wenn die Komponente initial gerendert wird
     componentDidMount() {
-
+        allBooks()
+            .then(books => {
+                this.setState({
+                    books,
+                    loading: false
+                })
+            })
+            .catch(e => {
+                console.error(e);
+                this.setState({
+                    loading: false
+                })
+            })
     }
 
 
@@ -24,31 +37,20 @@ export class App extends React.Component {
 
     }
 
-    static getDerivedStateFromProps() {
-        return {}
-    }
-
-    toggleButton = () => {
-        this.setState({
-            showTitle: !this.state.showTitle
-        });
-    };
-
-    handleTitleInput = (e) => {
-        this.setState({
-            title: e.target.value
-        })
-    };
+    /* static getDerivedStateFromProps() {
+          return {}
+     }*/
 
     render() {
+        console.log(this.state.books);
 
-        return <div className={"app-wrapper"}>
-            <Navigation title={this.state.title} updateTitle={(e) => this.handleTitleInput(e)}/>
+        const {loading, books} = this.state;
 
-            <button className="button" onClick={this.toggleButton}>
-                Drück mich
-            </button>
-        </div>;
+
+        return <main>
+            <Navigation/>
+            <Loading loading={loading}/>
+        </main>;
 
     }
 }

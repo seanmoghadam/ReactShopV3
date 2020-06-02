@@ -2,6 +2,7 @@ import React from "react";
 import Navigation from "./Components/Navigation/Navigation";
 import {allBooks} from "../api";
 import Loading from "./Components/Loading/Loading";
+import BookListing from "./Components/BookListing/BookListing";
 
 
 export class App extends React.Component {
@@ -50,6 +51,11 @@ export class App extends React.Component {
         return <main>
             <Navigation/>
             <Loading loading={loading}/>
+            <div className={"main-wrapper"}>
+                <div className={"main-col-wrapper"}>
+                    {!loading && <BookListing books={books}/>}
+                </div>
+            </div>
         </main>;
 
     }

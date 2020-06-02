@@ -1,11 +1,14 @@
 import React from "react";
+import Navigation from "./Components/Navigation/Navigation";
+
 
 export class App extends React.Component {
 
     constructor(props) {
         super(props);
         this.state = {
-            showTitle: true
+            showTitle: true,
+            title: ""
         }
     }
 
@@ -15,16 +18,20 @@ export class App extends React.Component {
         });
     };
 
+    handleTitleInput = (e) => {
+        this.setState({
+            title: e.target.value
+        })
+    };
+
     render() {
-        console.log(this.props);
 
-        this.props.title = "";
+        return <div className={"app-wrapper"}>
+            <Navigation title={this.state.title} updateTitle={(e) => this.handleTitleInput(e)}/>
 
-        return <div>
             <button className="button" onClick={this.toggleButton}>
                 Drück mich
             </button>
-            {this.state.showTitle ? <h1>{this.props.title}</h1> : null}
         </div>;
 
     }

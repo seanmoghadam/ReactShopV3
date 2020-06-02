@@ -8,8 +8,24 @@ export class App extends React.Component {
         super(props);
         this.state = {
             showTitle: true,
-            title: ""
+            title: "",
+            posts: []
         }
+    }
+
+    // wird ausgeführt wenn die Komponente initial gerendert wird
+    componentDidMount() {
+
+    }
+
+
+    // wird ausgeführt wenn die Komponente aus dem React Dom entfernt wird
+    componentWillUnmount() {
+
+    }
+
+    static getDerivedStateFromProps() {
+        return {}
     }
 
     toggleButton = () => {

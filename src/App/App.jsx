@@ -1,63 +1,90 @@
 import React from "react";
 import Navigation from "./Components/Navigation/Navigation";
-import {allBooks} from "../api";
 import Loading from "./Components/Loading/Loading";
+import Cart from "./Components/Cart/Cart";
+import {allBooks} from "../api";
 import BookListing from "./Components/BookListing/BookListing";
 
-
-export class App extends React.Component {
+export default class App extends React.Component {
 
     constructor(props) {
         super(props);
         this.state = {
+            loading: true,
             books: [],
-            loading: true
+            cart: [],
+            isDrawerOpened: false
         }
     }
 
-    // wird ausgeführt wenn die Komponente initial gerendert wird
+    //wird direkt nach dem erstellen (mounten) der Komponente ausgeführt
     componentDidMount() {
         allBooks()
             .then(books => {
-                this.setState({
-                    books,
-                    loading: false
-                })
+                this.setState({books})
             })
-            .catch(e => {
-                console.error(e);
+            .catch(e => console.error(e))
+            .finally(() => {
                 this.setState({
                     loading: false
                 })
             })
     }
 
-
-    // wird ausgeführt wenn die Komponente aus dem React Dom entfernt wird
+    //wird direkt nach dem zerstören der komponente ausgeführt
     componentWillUnmount() {
-
     }
 
-    /* static getDerivedStateFromProps() {
-          return {}
-     }*/
+    static getDerivedStateFromProps() {
+        return {}
+    }
+
+    addItemToCart = (book) => {
+
+    };
+
+    removeItemFromCart = (index) => {
+
+    };
+
+    toggleDrawer = () => {
+        this.setState({
+            isDrawerOpened: !this.state.isDrawerOpened
+        })
+
+
+    };
 
     render() {
-        console.log(this.state.books);
 
-        const {loading, books} = this.state;
+        const {books, loading, cart, isDrawerOpened} = this.state;
 
+        const getGeneratedClass = (defaultClass) => {
+            return defaultClass;
+        };
 
-        return <main>
-            <Navigation/>
+        return <div>
+            <Navigation toggleDrawer={this.toggleDrawer}
+                        isDrawerOpened={isDrawerOpened}/>
+
             <Loading loading={loading}/>
-            <div className={"main-wrapper"}>
-                <div className={"main-col-wrapper"}>
-                    {!loading && <BookListing books={books}/>}
+
+            <div className={getGeneratedClass("main-wrapper drawer-opened")}>
+                <div className="main-col-wrapper">
+                    <div className="content-wrapper">
+                        <BookListing
+                            books={books}
+                            addItemToCart={this.addItemToCart}
+                            isDrawerOpened={isDrawerOpened}
+                            toggleDrawer={this.toggleDrawer}
+                        />
+                    </div>
                 </div>
             </div>
-        </main>;
-
+            <div className={getGeneratedClass("drawer-wrapper drawer-opened")}>
+                <Cart cart={cart} removeItemFromCart={this.removeItemFromCart}/>
+            </div>
+        </div>
     }
-}
 
+}

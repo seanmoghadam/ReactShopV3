@@ -23,7 +23,8 @@ const BookListing = (props) => {
                             <img src={book.image} alt={book.title}/>
                         </a>
                         <button
-                            className="cart-button" onClick={() => {
+                            className="cart-button"
+                            onClick={() => {
                             props.addItemToCart(book);
                             if (!props.isDrawerOpened) {
                                 props.toggleDrawer();

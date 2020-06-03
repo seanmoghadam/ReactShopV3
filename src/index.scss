@@ -13,7 +13,6 @@ html, body {
   transform: translate3d(0, 0, 0);
   transition: width 225ms cubic-bezier(0, 0, 0.2, 1) 0ms;
 
-
   &.drawer-closed {
     width: 100%;
   }

@@ -40,10 +40,22 @@ export default class App extends React.Component {
     }
 
     addItemToCart = (book) => {
-
+        this.setState({
+            cart: [...this.state.cart, book]
+        })
     };
 
     removeItemFromCart = (index) => {
+        // aktuellen durchgang des arrays -> index
+        let newCart = [...this.state.cart];
+
+        // lösche item aus dem cart - (Array).splice
+        newCart.splice(index, 1);
+
+        // setze neuen state mit neuem array ohne dem item mit dem index
+        this.setState({
+            cart: newCart
+        })
 
     };
 
@@ -51,8 +63,6 @@ export default class App extends React.Component {
         this.setState({
             isDrawerOpened: !this.state.isDrawerOpened
         })
-
-
     };
 
     render() {
@@ -60,7 +70,13 @@ export default class App extends React.Component {
         const {books, loading, cart, isDrawerOpened} = this.state;
 
         const getGeneratedClass = (defaultClass) => {
-            return defaultClass;
+            const className = [defaultClass];
+            if (isDrawerOpened) {
+                className.push("drawer-opened")
+            } else {
+                className.push("drawer-closed")
+            }
+            return className.join(" ");
         };
 
         return <div>
@@ -69,7 +85,7 @@ export default class App extends React.Component {
 
             <Loading loading={loading}/>
 
-            <div className={getGeneratedClass("main-wrapper drawer-opened")}>
+            <div className={getGeneratedClass("main-wrapper")}>
                 <div className="main-col-wrapper">
                     <div className="content-wrapper">
                         <BookListing
@@ -81,7 +97,7 @@ export default class App extends React.Component {
                     </div>
                 </div>
             </div>
-            <div className={getGeneratedClass("drawer-wrapper drawer-opened")}>
+            <div className={getGeneratedClass("drawer-wrapper")}>
                 <Cart cart={cart} removeItemFromCart={this.removeItemFromCart}/>
             </div>
         </div>

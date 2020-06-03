@@ -10,6 +10,8 @@ const deleteIcon = <svg xmlns="http://www.w3.org/2000/svg"
 </svg>;
 
 const Cart = (props) => {
+    let totalPrice = 0;
+
     return <div className="cart-wrapper">
         <h2 className="cart-headline">
             Warenkorb
@@ -18,6 +20,7 @@ const Cart = (props) => {
         <ul className="cart-list">
             {props.cart && !props.cart.length && "Aktuell gibt es keine Bücher im Warenkorb."}
             {props.cart.map((cartItem, index) => {
+                totalPrice += cartItem.price;
                 return <li key={cartItem.isbn + index} className="cart-list-item">
                     <p>{cartItem.title} - <strong>{cartItem.price} €</strong></p>
                     <button onClick={() => props.removeItemFromCart(index)}>
@@ -28,7 +31,7 @@ const Cart = (props) => {
         </ul>
         <div className="cart-footer">
             <span>Preis:</span>
-            <span>Keine Berechnung €
+            <span>{totalPrice.toFixed(2)} €
                       </span>
         </div>
     </div>;

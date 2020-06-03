@@ -3,7 +3,9 @@ import Navigation from "./Components/Navigation/Navigation";
 import Loading from "./Components/Loading/Loading";
 import Cart from "./Components/Cart/Cart";
 import {allBooks} from "../api";
-import BookListing from "./Components/BookListing/BookListing";
+import routes from "../routes/routes";
+
+export const AppContext = React.createContext({});
 
 export default class App extends React.Component {
 
@@ -80,26 +82,32 @@ export default class App extends React.Component {
         };
 
         return <div>
-            <Navigation toggleDrawer={this.toggleDrawer}
-                        isDrawerOpened={isDrawerOpened}/>
 
-            <Loading loading={loading}/>
+            <AppContext.Provider value={{
+                isDrawerOpened: isDrawerOpened,
+                books: books,
+                cart: cart,
+                addItemToCart: this.addItemToCart,
+                removeItemFromCart: this.removeItemFromCart,
+                toggleDrawer: this.toggleDrawer
+            }}>
+                <Navigation/>
 
-            <div className={getGeneratedClass("main-wrapper")}>
-                <div className="main-col-wrapper">
-                    <div className="content-wrapper">
-                        <BookListing
-                            books={books}
-                            addItemToCart={this.addItemToCart}
-                            isDrawerOpened={isDrawerOpened}
-                            toggleDrawer={this.toggleDrawer}
-                        />
+                <Loading loading={loading}/>
+
+                <div className={getGeneratedClass("main-wrapper")}>
+                    <div className="main-col-wrapper">
+                        <div className="content-wrapper">
+                            {!loading && routes}
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div className={getGeneratedClass("drawer-wrapper")}>
-                <Cart cart={cart} removeItemFromCart={this.removeItemFromCart}/>
-            </div>
+                <div className={getGeneratedClass("drawer-wrapper")}>
+                    <Cart cart={cart} removeItemFromCart={this.removeItemFromCart}/>
+                </div>
+
+            </AppContext.Provider>
+
         </div>
     }
 

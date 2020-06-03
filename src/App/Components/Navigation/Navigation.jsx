@@ -1,7 +1,8 @@
 import React from "react";
-import PropTypes from "prop-types";
 
 import "./Navigation.scss";
+import {Link} from "react-router-dom";
+import {AppContext} from "../../App";
 
 const DrawerIcon = <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
     <path
@@ -10,7 +11,7 @@ const DrawerIcon = <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24
 
 const getNavBarWrapperClass = (defaultClass, isDrawerOpened) => {
     const className = [defaultClass];
-    if(isDrawerOpened){
+    if (isDrawerOpened) {
         className.push("drawer-opened")
     } else {
         className.push("drawer-closed")
@@ -19,24 +20,24 @@ const getNavBarWrapperClass = (defaultClass, isDrawerOpened) => {
 };
 
 
-const Navigation = (props) => {
+const Navigation = () => {
+    return <AppContext.Consumer>
+        {
+            context => <div className={getNavBarWrapperClass("nav-bar-wrapper", context.isDrawerOpened)}>
+                <nav className="nav-bar">
+                    <Link to="/">
+                        Reactshop
+                    </Link>
+                    <button onClick={() => context.toggleDrawer()} className="cart-button">
+                        {DrawerIcon}
+                    </button>
+                </nav>
+            </div>
 
-    return <div className={getNavBarWrapperClass("nav-bar-wrapper", props.isDrawerOpened)}>
-        <nav className="nav-bar">
-            <a href="/">
-                Reactshop
-            </a>
-            <button onClick={() => props.toggleDrawer()} className="cart-button">
-                {DrawerIcon}
-            </button>
-        </nav>
-    </div>
+        }
 
-};
+    </AppContext.Consumer>
 
-Navigation.propTypes = {
-    toggleDrawer: PropTypes.func,
-    isDrawerOpened: PropTypes.bool
 };
 
 export default Navigation;

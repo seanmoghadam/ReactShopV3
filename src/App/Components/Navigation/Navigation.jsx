@@ -17,7 +17,9 @@ const Navigation = (props) => {
 
     return <div className={getNavBarWrapperClass(props)}>
         <nav className="nav-bar">
-            Reactshop
+            <a href="/">
+                Reactshop
+            </a>
             <button onClick={() => props.toggleDrawer()} className="cart-button">
                 {DrawerIcon}
             </button>
